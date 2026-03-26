@@ -1,11 +1,9 @@
-# Server
-server.port=${PORT:8080}
+FROM openjdk:17-jdk-slim
 
-# Database (Render ENV)
-spring.datasource.url=${DATABASE_URL}
-spring.datasource.username=${DB_USERNAME}
-spring.datasource.password=${DB_PASSWORD}
+WORKDIR /app
 
-# JPA
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
+COPY target/*.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java","-jar","app.jar"]

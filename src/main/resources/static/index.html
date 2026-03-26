@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Shortener</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 350px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #667eea;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        #result {
+            margin-top: 20px;
+            word-wrap: break-word;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>🔗 URL Shortener</h2>
+
+        <input type="text" id="urlInput" placeholder="Enter your long URL here"/>
+        
+        <button onclick="shorten()">Shorten URL</button>
+
+        <p id="result"></p>
+    </div>
+
+    <script>
+    function shorten() {
+        let url = document.getElementById("urlInput").value;
+
+        fetch("http://localhost:8080/shorten?url=" + encodeURIComponent(url))
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("API not found");
+                }
+                return response.text();
+            })
+            .then(data => {
+                window.location.href = data;
+            })
+            .catch(error => {
+                document.getElementById("result").innerText =
+                    "Error: " + error.message;
+            });
+    }
+    </script>
+
+</body>
+</html>
